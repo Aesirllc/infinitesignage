@@ -1,0 +1,361 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container" style="padding-top: 10px;">
+
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+
+
+      <!-- TODO -->
+
+
+
+
+      <form action="{% url 'advertiser_inquiry' %}" method="POST" id="ad_form">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Advertiser inquiry</h5>
+
+                <div class="mb-3">
+                  <label for="choose_city" class="form-label">Choose City</label>
+                  <select class="form-select" aria-label="locations" name="choose_city" id="choose_city">
+                    {% if not selected_city %}
+                    <option value="" selected="selected"> Please Select </option>
+                    {% else %}
+                    <option value=""> Please Select</option>
+                    {% endif %}
+
+                    {% for city in cities %}
+                    {% if selected_city|add:"0" == city.id %}
+                    <option data-calcvalue="1.2" value="{{city.id}}" selected="selected"> {{city.name}} </option>
+                    {% else %}
+                    <option data-calcvalue="1.2" value="{{city.id}}"> {{city.name}} </option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+
+
+                <div class="mb-3">
+                  <label>Select locations</label>
+                  <ul class="list-group" id="locations_list">
+                    {% for business in page_obj %}
+                    <li class="list-group-item">
+                      <div class="form-check">
+                        <input class="form-check-input location-check" type="checkbox" value="{{business.id}}"
+                          id="{{business.id}}" >
+                        <img class="img-thumbnail" src="{{business.logo.url}}" style="width:100px; height: 100px" />
+                        <label class="form-check-label" for="{{business.id}}">
+                          <h6>{{business.name}}</h6>
+                          Screens: {{business.number_of_screens}}
+                          Seconds available: {{business.loop_length}}
+                          
+                        </label>
+                        <div class="mt-3">
+                          <a href="{% url 'business_details' business.id %}" target="_blank"  class="btn btn-outline-secondary btn-sm">See Details</a>
+                        </div>
+                      </div>
+                      
+                    </li>
+
+                    {% endfor %}
+
+
+                  </ul>
+                  <div class="pagination">
+                    <span class="step-links">
+                      {% if page_obj.has_previous %}
+                      <a href="?page=1">&laquo; first</a>
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                      {% endif %}
+
+                      <!-- <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                      </span> -->
+
+                      {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a>
+                      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                      {% endif %}
+                    </span>
+                  </div>
+
+
+
+                </div>
+
+                <div class="mb-3">
+                  <button id="clear_selection" class="btn btn-primary">Clear Selection</button>
+
+                </div>
+
+                <div class="mb-3">
+                  <label for="ad_length" class="form-label">Length of ad</label>
+                  <select class="form-select" aria-label="Length of ad" name="ad_length" id="ad_length">
+                    <option value=""> Please Select </option>
+                    <option data-calcvalue="1.2" value="10">10</option>
+                    <option data-calcvalue="1.05" value="15">15</option>
+                    <option data-calcvalue="1.1" value="20">20</option>
+                    <option data-calcvalue="1" value="30">30</option>
+                    <option data-calcvalue="1" value="40">40</option>
+                    <option data-calcvalue="1" value="50">50</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="ad_type" class="form-label">Ad Type</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="static" name="ad_type" id="static_image">
+                    <label class="form-check-label" for="static_image">
+                      Static Image
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="ad_type" id="video_ad" value="video_ad">
+                    <label class="form-check-label" for="video_ad">
+                      Video Ad
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="discount_amount" class="form-label">Discount Amount</label>
+                  <input type="text" class="form-control" id="discount_amount" name="discount_amount">
+                </div>
+
+
+
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Estimate</h5>
+                <p class="lead">
+                  $ <span id="total_estimate">0.00</span>
+                </p>
+
+
+
+
+
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Business Info</h5>
+                <div class="mb-3">
+                  <label for="business_name" class="form-label">Business Name</label>
+                  <input type="text" class="form-control" id="business_name" name="business_name" required>
+                </div>
+                <div class="mb-3">
+                  <label for="contact_name" class="form-label">Contact Name</label>
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="first_name" required>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="last_name" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="row">
+                    <div class="col-sm mb-3">
+                      <label for="email" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="email"
+                        placeholder="name@example.com" name="email" required>
+                    </div>
+                    <div class="col-sm mb-3">
+                      <label for="phone_number" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="phone_number" placeholder="(000) 000-0000"
+                        inputmode="text" name="phone_number" required>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="form-label">Address</label>
+                  <textarea class="form-control" id="address" rows="3" name="address" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+
+
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+
+
+
+      </form>
+
+
+
+
+    </div>
+    <div class="col-sm-1"></div>
+
+
+  </div>
+
+</div>
+
+{% endblock%}
+
+{% block javascript %}
+<script>
+
+  window.addEventListener('DOMContentLoaded', (event) => {
+
+    var element = document.getElementById('phone_number');
+    var maskOptions = {
+      mask: '(000) 000-0000'
+    };
+  var mask = IMask(element, maskOptions);
+    let city_select = document.querySelector("#choose_city")
+    city_select.addEventListener("change", (event) => {
+      // reload
+      let city_id = event.target.value
+      var url = window.location.href;
+
+      if (url.indexOf('?') > -1) {
+        base_url = url.split('?')
+        if (city_id !== "")
+          url = `${base_url[0]}?city=${city_id}`
+        else
+          url = base_url[0]
+      } else {
+
+        if (city_id !== "")
+          url += `?city=${city_id}`
+
+      }
+      window.location.href = url
+
+    })
+
+    let saved = sessionStorage.getItem("selected_businesses")
+
+    let selected_businesses = []
+    if (saved !== null) {
+      selected_businesses = JSON.parse(saved)
+    }
+    console.log(selected_businesses)
+    business_checkboxes = document.querySelectorAll(".location-check")
+
+    for (let i = 0; i < business_checkboxes.length; i++) {
+      if (selected_businesses.indexOf(business_checkboxes[i].value) > -1) {
+        business_checkboxes[i].checked = true
+      }
+    }
+
+    console.log(business_checkboxes)
+
+   
+    let addRemoveBusinesses = (event) => {
+      console.log(event.target.checked, event.target.value)
+
+      if (event.target.checked) {
+        if (selected_businesses.indexOf(event.target.value) == -1) {
+          selected_businesses.push(event.target.value)
+          
+        }
+      }
+      else {
+        if (selected_businesses.indexOf(event.target.value) > -1) {
+          selected_businesses = selected_businesses.filter((el) => {
+            return el !== event.target.value
+          })
+        }
+      }
+
+      console.log(selected_businesses)
+
+    }
+
+    for (i = 0; i < business_checkboxes.length; i++) {
+      business_checkboxes[i].addEventListener("change", addRemoveBusinesses)
+    }
+
+    let ad_form = document.querySelector("#ad_form")
+    ad_form.addEventListener("submit", (event) => {
+      event.preventDefault()
+      // let form_data = new FormData(event.target)
+      // console.log(form_data)
+      // form_data.append('selected_businesses', selected_businesses)
+      // let data = Object.fromEntries(form_data)
+      // console.log(`Data: ${JSON.stringify(data)}`)
+
+      var input = document.createElement("input");
+
+      input.setAttribute("type", "hidden");
+
+      input.setAttribute("name", "selected_businesses");
+
+      input.setAttribute("value", selected_businesses);
+      ad_form.appendChild(input);
+
+      ad_form.submit()
+      
+    })
+
+    // save form state before unload
+    window.addEventListener("beforeunload", (event) => {
+      console.log("beforeunload fired")
+      sessionStorage.setItem("selected_businesses", JSON.stringify(selected_businesses))
+    })
+
+    let ad_length_input = document.getElementById("ad_length")
+    ad_length_input.addEventListener('change', (event) => {
+      calculateEstimate()
+    })
+
+    const calculateEstimate = () => {
+      console.log(ad_length_input.value)
+       
+    }
+
+    let clearBtn = document.querySelector("#clear_selection")
+    clearBtn.addEventListener('click', (event) => {
+      selected_businesses = []
+      window.location.reload();
+    })
+  
+  });
+
+  
+
+
+
+
+
+</script>
+
+{% endblock %}

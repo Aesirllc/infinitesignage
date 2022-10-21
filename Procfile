@@ -1,0 +1,1 @@
+web: gunicorn signage_project.wsgi --log-file -

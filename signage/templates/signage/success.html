@@ -1,0 +1,37 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-10">
+            <div class="card  mb-3">
+                <div class="card-header bg-transparent " style="text-align: center;">
+                    <img src="{% static 'signage/assets/checked.png' %}" style="height: 100px; width: 100px"/>
+                </div>
+                <div class="card-body text-success" style="text-align: center;">
+                  <h5 class="card-title">Payment Successful</h5>
+                  <p class="card-text">You have successfully subscribed to <strong>{{plan.name}}</strong></p>
+                </div>
+                
+            </div>
+
+
+            
+            
+        </div>
+
+        <div class="col-sm-1">
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

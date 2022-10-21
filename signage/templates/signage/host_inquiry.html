@@ -1,0 +1,369 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <!-- TODO -->
+      <form action="{% url 'host_inquiry' %}" method="POST" id="host_form">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-7">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Host inquiry</h5>
+                <div class="mb-3">
+                  <label for="loop_length" class="form-label">Loop Length</label>
+                  <select class="form-select" aria-label="Loop Length" name="loop_length" id="loop_length">
+                    <option value=""> Please Select </option>
+                    <option data-calcvalue="5" value="5">5 minutes</option>
+                    <option data-calcvalue="20" value="20">20 Minutes</option>
+                    <option data-calcvalue="30" value="30">30 minutes</option>
+                    <option data-calcvalue="45" value="45">45 minutes</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="city_location" class="form-label">City Location</label>
+                  <select class="form-select" aria-label="locations" name="city_location" id="city_location">
+                    <option value=""> Please Select </option>
+                    {% for city in cities %}
+                      <option data-calcvalue="{{city.population}}" value="{{city.id}}">{{city.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="no_of_screens" class="form-label">No of screens to be installed</label>
+                  <select class="form-select" aria-label="No of screens" name="no_of_screens" id="no_of_screens">
+                    <option value=""> Please Select </option>
+                    <option data-calcvalue="1" value="1"> 1 </option>
+                    <option data-calcvalue="1.25" value="2"> 2 </option>
+                    <option data-calcvalue="1.5" value="3"> 3 </option>
+                    <option data-calcvalue="1.75" value="4"> 4 </option>
+                    <option data-calcvalue="2" value="5"> 5 </option>
+                    <option data-calcvalue="2.25" value="6"> 6 </option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="percentage_of_screen" class="form-label">Percentage of Screen Dedicated to
+                    Advertisements</label>
+                  <select class="form-select" aria-label="No of screens" name="percentage_of_screen"
+                    id="percentage_of_screen">
+                    <option value=""> Please Select </option>
+                    <option data-calcvalue=".5" value="50"> 50 </option>
+                    <option data-calcvalue=".6" value="60"> 60 </option>
+                    <option data-calcvalue=".7" value="70"> 70 </option>
+                    <option data-calcvalue=".8" value="80"> 80 </option>
+                    <option data-calcvalue=".9" value="90"> 90 </option>
+                    <option data-calcvalue="1" value="100"> 100 </option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="second_screen" class="form-label">Second Screen with Host controlled login</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" value="no" name="second_screen" id="second_screen_no"
+                      data-calcvalue="0">
+                    <label class="form-check-label" for="second_screen_no">
+                      No
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="second_screen" id="second_screen_yes" value="yes"
+                      data-calcvalue="300">
+                    <label class="form-check-label" for="second_screen_yes">
+                      Yes
+                    </label>
+                  </div>
+                </div>
+                <hr>
+                <h5>Business Info</h5>
+                <div class="mb-3">
+                  <label for="business_name" class="form-label">Business Name</label>
+                  <input type="text" class="form-control" id="business_name" name="business_name">
+                </div>
+                <div class="mb-3">
+                  <label for="contact_name" class="form-label">Contact Name</label>
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="First name" aria-label="First name" name="fname">
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" name="lname">
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="row">
+                    <div class="col-sm mb-3">
+                      <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="exampleFormControlInput1"
+                        placeholder="name@example.com" name="email">
+                    </div>
+                    <div class="col-sm mb-3">
+                      <label for="phone_number" class="form-label">Phone Number</label>
+                      <input type="tel" class="form-control" id="phone_number" placeholder="(000) 000-0000"
+                        inputmode="text" name="phone_number">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="mb-3">
+                  <label for="notes" class="form-label">Notes</label>
+                  <textarea class="form-control" id="notes" rows="3" name="notes"></textarea>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-sm-5">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Minimum Average Based on onboarding 2 to 3 advertisers</h5>
+
+                <div class="mb-3">
+                  <label for="min_avg_revenue" class="form-label">Minimum Average Revenue</label>
+                  <input type="text" class="form-control" id="min_avg_revenue" name="min_avg_revenue" value="0">
+                </div>
+                <div class="mb-3">
+                  <label for="total_annual" class="form-label">Total Annual Potential Revenue to Host</label>
+                  <input type="text" class="form-control" id="total_annual" name="total_annual" value="0">
+                </div>
+                <div class="mb-3">
+                  <label for="potential_monthly_payout" class="form-label">Potential Monthly Payout</label>
+                  <input type="text" class="form-control" id="potential_monthly_payout" name="potential_monthly_payout" value="0">
+                </div>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  Next
+                </button>
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+                obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+                nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+                tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+                quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
+                sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
+                recusandae alias error harum maxime adipisci amet laborum. Perspiciatis
+                minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
+                quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur
+                fugiat, temporibus enim commodi iusto libero magni deleniti quod quam
+                consequuntur! Commodi minima excepturi repudiandae velit hic maxime
+                doloremque. Quaerat provident commodi consectetur veniam similique ad
+                earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo
+                fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore
+                suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
+                modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam
+                totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam
+                quasi aliquam eligendi, placeat qui corporis!
+
+                <hr>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="agree_to_terms">
+                  <label class="form-check-label" for="agree_to_terms">
+                    Agree to Terms and conditions
+                  </label>
+                </div>
+                <div class="mb-3">
+                  <label for="initials" class="form-label">Type your initials</label>
+                  <input type="text" class="form-control" id="initials">
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="submit_btn">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </form>
+
+
+
+    </div>
+    <div class="col-sm-1"></div>
+
+
+  </div>
+
+
+
+
+</div>
+
+{% endblock%}
+
+
+{% block javascript %}
+{{ settings|json_script:"settings" }}
+<script>
+  var element = document.getElementById('phone_number');
+  var maskOptions = {
+    mask: '(000) 000-0000'
+  };
+  var mask = IMask(element, maskOptions);
+
+
+  
+  // Calculations
+  min_avg_rev = document.getElementById("min_avg_revenue")
+  total_annual = document.querySelector("#total_annual")
+  potential_monthly_payout = document.querySelector("#potential_monthly_payout")
+
+
+  let loop_length = document.getElementById("loop_length")
+  let city_location = document.getElementById("city_location")
+  let no_of_screens = document.getElementById("no_of_screens")
+  let percentage_of_screen = document.getElementById("percentage_of_screen")
+
+  let min_avg = parseInt(min_avg_rev.value)
+  loop_length.addEventListener("change", (event) => {
+    
+    calculateValues()
+
+  })
+
+  city_location.addEventListener("change", (event) => {
+    calculateValues()
+  })
+
+  no_of_screens.addEventListener("change", (event) => {
+    calculateValues()
+  })
+
+  percentage_of_screen.addEventListener("change", (event) => {
+    calculateValues()
+  })
+
+  let calculate_population_cost = (population) =>  {
+    console.log(`population: ${population}`)
+
+    console.log(document.getElementById('settings').textContent)
+
+    const settings = JSON.parse(document.getElementById('settings').textContent);
+    const settings_obj = JSON.parse(settings)
+    let base_cost = parseInt(settings_obj["base_cost"])
+    let percent_increase = parseInt(settings_obj["percentage_increase"])
+
+    console.log(`Base cost: ${base_cost}, % increase: ${percent_increase}`)
+    let cost = 0
+    
+      if(population >= 3001 && population <= 8000) {
+        cost = base_cost + ((percent_increase / 100) * base_cost)
+        console.log(`pop cost: ${cost}`)
+      }
+      else if (population >= 8001 && population <= 15000) {
+        cost = base_cost + (((2 * percent_increase) / 100) * base_cost)
+        console.log(`pop cost: ${cost}`)
+      }
+      else if (population >= 15001 && population <= 25000) {
+        cost = base_cost + (((3 * percent_increase) / 100) * base_cost)
+        console.log(`pop cost: ${cost}`)
+      }
+      else if (population >= 25001 && population <= 40000) {
+        cost = base_cost + (((4 * percent_increase) / 100) * base_cost)
+        console.log(`pop cost: ${cost}`)
+      }
+      else if (population >= 40001 && population <= 60000) {
+        cost = base_cost + (((5 * percent_increase) / 100) * base_cost)
+        console.log(`pop cost: ${cost}`)
+      }
+    return cost
+  }
+
+  let calculateValues = () => {
+    let min_avg = 0
+    loop_length_val = parseInt(loop_length.options[loop_length.selectedIndex].dataset.calcvalue)
+    city_location_val = parseInt(city_location.options[city_location.selectedIndex].dataset.calcvalue) 
+    no_of_screens_val = parseInt(no_of_screens.value)
+    percentage_of_screen_val = parseInt(percentage_of_screen.value) 
+
+    console.table(loop_length_val, city_location_val, no_of_screens_val, percentage_of_screen_val)
+
+    total_seconds = loop_length_val * 60 * 0.9
+
+    no_of_slots = total_seconds / 5
+    console.log(`There are ${no_of_slots} 5 seconds slots available`)
+
+    
+    // City location
+    if(!isNaN(city_location_val)) {
+      cost = calculate_population_cost(city_location_val)
+      console.log(`cost: ${cost} per 5 seconds`)
+    }
+    else {
+      cost = 0
+    }
+    
+
+    
+    min_avg = no_of_slots * cost
+
+    // no_of_screens
+    console.log(no_of_screens_val)
+    if (!isNaN(no_of_screens_val)) {
+      min_avg = no_of_screens_val * 0.25 * min_avg + (min_avg)
+    }
+   
+    console.log(min_avg)
+    
+
+    min_avg_rev.value = min_avg
+
+
+  }
+
+  let host_form = document.querySelector("#host_form")
+  let submit_btn = document.querySelector("#submit_btn")
+  
+  submit_btn.addEventListener("click", (event) => {
+    event.preventDefault();
+    let agree_to_terms = document.querySelector("#agree_to_terms")
+    let initials = document.querySelector("#initials")
+    console.log(agree_to_terms.checked)
+    console.log(initials.value)
+    if(agree_to_terms.checked && initials.value !== undefined && initials.value !== "") {
+      host_form.submit()
+    }
+  })
+
+
+
+
+</script>
+
+{% endblock %}

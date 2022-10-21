@@ -1,0 +1,54 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-10">
+            <h5>Select Plans</h5>
+
+
+            {% for plan in plans %}
+            <div class="card">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{plan.plan_name}}</h5>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <p>{{plan.plan_description}}</p>
+                            <p class="lead">${{plan.price}}/ month</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="{{plan.checkout_page}}" class="btn btn-small btn-primary">Checkout</a>
+                        </div>
+
+                    </div>
+                    
+
+                    
+
+
+
+
+
+                    
+                  </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+        <div class="col-sm-1">
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-8">
+            <div class="card mb-3">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="{{ business.logo.url }}" class="img-thumbnail" style="width: 150px; height: 150px"/>
+                        </div>
+                        <div class="col-sm-9">
+
+                            <h4 class="card-title">{{business.name}}</h4>
+
+                            <p class="lead">Number of screens: {{business.number_of_screens}}</p> 
+                            <p class="lead">Seconds available: {{business.loop_length}}</p>
+
+                            <p class="lead">Location:</p>
+
+                            {% for loc in locations %}
+                                {{loc.address}},
+                                {{loc.city.name}}
+
+                            {% endfor %}
+
+                            
+
+
+                        </div>
+                    </div>
+        
+                    
+                    
+                    
+                    
+                  </div>
+            </div>
+            <div class="card mb-3">
+
+                <div class="card-body">
+                    <h4 class="card-title">Notes</h4>
+                    
+                    <div>
+                        {{business.notes}}
+                    </div>
+                    
+                        
+                  </div>
+            </div>
+            
+            {% if images %}
+            <div class="card">
+
+                <div class="card-body">
+                    <h4 class="card-title">Gallery</h4>
+                    
+                    {% for image in images %}
+                    <a data-fslightbox="gallery" href="{{ image.image.url }}"><img src="{{  image.image.url }}" class="img-thumbnail" style="height:100px; width: 100px;"/></a>
+                    
+                    {% endfor %}
+                    
+                        
+                  </div>
+            </div>
+            {% endif %}
+            
+        </div>                  
+
+        <div class="col-sm-2">
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'signage/js/fslightbox.js'%}"></script>
+{% endblock %}

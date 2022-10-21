@@ -1,0 +1,46 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container" style="padding-top: 10px;">
+    <div class="row">
+        <div class="col-sm-1">
+
+
+        </div>
+        <div class="col-sm-5">
+            <div class="card">
+                
+                <div class="card-body">
+                  <h5 class="card-title">Host inquiry</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="{% url 'host_inquiry' %}" class="btn btn-primary">></a>
+                </div>
+              </div>
+            
+
+        </div>
+        <div class="col-sm-5">
+            <div class="card" >
+                
+                <div class="card-body">
+                  <h5 class="card-title">Advertiser Inquiry</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="{% url 'advertiser_inquiry' %}" class="btn btn-primary">></a>
+                </div>
+              </div>
+            
+
+        </div>
+        <div class="col-sm-1">
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
