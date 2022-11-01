@@ -249,6 +249,7 @@
   let city_location = document.getElementById("city_location")
   let no_of_screens = document.getElementById("no_of_screens")
   let percentage_of_screen = document.getElementById("percentage_of_screen")
+  let second_screen_inputs = document.querySelectorAll("input[type=radio]")
 
   let min_avg = parseInt(min_avg_rev.value)
   loop_length.addEventListener("change", (event) => {
@@ -268,6 +269,15 @@
   percentage_of_screen.addEventListener("change", (event) => {
     calculateValues()
   })
+  
+  let second_screen = "no"
+  for (let i = 0; i < second_screen_inputs.length; i++) {
+    second_screen_inputs[i].addEventListener('change', (event) => {
+      console.log(event.target.value)
+      second_screen = event.target.value;
+      calculateValues()
+    })
+  }
 
   let calculate_population_cost = (population) =>  {
     console.log(`population: ${population}`)
@@ -310,9 +320,9 @@
     loop_length_val = parseInt(loop_length.options[loop_length.selectedIndex].dataset.calcvalue)
     city_location_val = parseInt(city_location.options[city_location.selectedIndex].dataset.calcvalue) 
     no_of_screens_val = parseInt(no_of_screens.value)
-    percentage_of_screen_val = parseInt(percentage_of_screen.value) 
+    alloted_screen = parseInt(percentage_of_screen.value) 
 
-    console.table(loop_length_val, city_location_val, no_of_screens_val, percentage_of_screen_val)
+    console.table(loop_length_val, city_location_val, no_of_screens_val, alloted_screen)
 
     total_seconds = loop_length_val * 60 * 0.9
 
@@ -329,14 +339,26 @@
       cost = 0
     }
     
+    if(isNaN(alloted_screen)) {
+      alloted_screen = 30
 
-    
-    min_avg = no_of_slots * cost
+    }
+    max_avg = no_of_slots * cost * (alloted_screen / 100)
+    console.log("Max avg cost = " + max_avg)
+    min_avg =  cost * (alloted_screen / 100)
 
     // no_of_screens
     console.log(no_of_screens_val)
     if (!isNaN(no_of_screens_val)) {
       min_avg = no_of_screens_val * 0.25 * min_avg + (min_avg)
+    }
+    console.log("SECOND " + second_screen)
+    if(second_screen === "yes") {
+      min_avg = min_avg - 300
+    }
+
+    if (min_avg < 0) {
+      min_avg = 0
     }
    
     console.log(min_avg)

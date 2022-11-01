@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6$9w4hkii8$%k!&kt*^+@2yw=-9!(*%lo!-odk$2kj3nbm-m0e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com']
+ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'signage.User'
 
