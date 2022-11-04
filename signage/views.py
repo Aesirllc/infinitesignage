@@ -90,6 +90,11 @@ def host_inquiry(request):
         loop_length = request.POST.get("loop_length")
         city_id = request.POST.get("city_location")
         no_of_screens = request.POST.get("no_of_screens")
+        min_avg_revenue = request.POST.get("min_avg_revenue")
+        print(f"min_avg_revenue: {min_avg_revenue}")
+
+        if no_of_screens  == "":
+            no_of_screens = 0
 
         validated_phone_number = PhoneNumber.from_string(phone_number, region="US")
 
@@ -105,7 +110,7 @@ def host_inquiry(request):
             location.save()
 
             plan_name = f"{business_name} {city.name}"
-            response = create_host_plan(plan_name, 0)
+            response = create_host_plan(plan_name, int(min_avg_revenue))
 
             if response["status"] == "success":
                 new_plan = Plan(business=new_business, plan_id=response["data"]["id"])

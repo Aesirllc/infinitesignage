@@ -241,6 +241,9 @@
   
   // Calculations
   min_avg_rev = document.getElementById("min_avg_revenue")
+  max_avg_rev = document.getElementById("total_annual")
+  potential_monthly_payout = document.getElementById("potential_monthly_payout")
+
   total_annual = document.querySelector("#total_annual")
   potential_monthly_payout = document.querySelector("#potential_monthly_payout")
 
@@ -365,6 +368,21 @@
     
 
     min_avg_rev.value = min_avg
+
+    if (alloted_screen !== 30) {
+      deduction = ((100 - alloted_screen) / 100) * max_avg
+      max_avg = max_avg - deduction
+    }
+
+    if (!isNaN(max_avg)) {
+      max_avg_rev.value = max_avg
+      potential_monthly_payout.value = max_avg / 12
+    }
+    else {
+      max_avg_rev.value = 0
+      potential_monthly_payout.value = 0
+    }
+  
 
 
   }
