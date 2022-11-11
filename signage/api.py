@@ -28,7 +28,7 @@ def create_host_plan(plan_name, price):
             "billing_cycle": "lifetime",
             "billing_cycle_num": "2",
             "price": price,
-            "billing_period": "m",
+            "billing_period": "y",
             "billing_period_num": "1",
             "plan_active": "true",
             "plan_description": "",
