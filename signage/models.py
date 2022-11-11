@@ -78,8 +78,7 @@ class Advertiser(models.Model):
 
     businesses = models.ManyToManyField(Business) 
     length_of_ad = models.IntegerField(default=0)
-    ad_type = models.CharField(max_length=20, blank=True)
-    discount = models.IntegerField(default=0)
+   
 
     def __str__(self):
         return f"{self.business_name}"

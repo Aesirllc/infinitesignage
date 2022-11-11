@@ -146,15 +146,14 @@ def ad_inquiry(request):
         phone_number = request.POST.get("phone_number")
         address = request.POST.get("business_name")
         ad_length = request.POST.get("ad_length")
-        ad_type= request.POST.get("ad_type")
-        discount_amount = request.POST.get("discount_amount")
+        
 
         selected_businesses = request.POST.get("selected_businesses")
         print(f"Selected businesses: {selected_businesses}")
         
         validated_phone_number = PhoneNumber.from_string(phone_number, region="US")
         try:
-            new_ad = Advertiser(business_name=business_name, email=email, contact_name=f"{fname} {lname}", phone_number=validated_phone_number.as_e164, salesman=request.user, address=address, length_of_ad=int(ad_length), ad_type=ad_type, discount = discount_amount)
+            new_ad = Advertiser(business_name=business_name, email=email, contact_name=f"{fname} {lname}", phone_number=validated_phone_number.as_e164, salesman=request.user, address=address, length_of_ad=int(ad_length))
             new_ad.save()
 
             business_ids = [int(i) for i in selected_businesses.split(',')]
