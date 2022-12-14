@@ -30,7 +30,7 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #dev only
 
 
-ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com', '127.0.0.1', 'https://web-production-5a3e.up.railway.app/']
 
 AUTH_USER_MODEL = 'signage.User'
 
