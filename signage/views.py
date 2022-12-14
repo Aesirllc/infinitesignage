@@ -277,3 +277,4 @@ def success(request):
 
         return render(request, 'signage/success.html', {"plan": {"name": result["data"]["plan"]["plan_name"]}})
     return render(request, 'signage/success.html')
+

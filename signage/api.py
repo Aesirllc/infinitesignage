@@ -80,6 +80,15 @@ def check_subscription_status(subscription_id):
     print(response.json())
     return response.json()
 
+def fetch_all_subscriptions():
+    basic = HTTPBasicAuth(api_key, secret_key)
+    list_subscriptions_endpoint = "https://payments.pabbly.com/api/v1/subscriptions"
+
+    response = requests.get(list_plans_endpoint, auth=basic)
+    print(response.json())
+
+    return response.json()
+
 
 if __name__ == "__main__":
     check_subscription_status("634841861b32b359198bf9d0")

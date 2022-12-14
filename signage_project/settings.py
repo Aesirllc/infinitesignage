@@ -26,6 +26,10 @@ SECRET_KEY = 'django-insecure-6$9w4hkii8$%k!&kt*^+@2yw=-9!(*%lo!-odk$2kj3nbm-m0e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #dev only
+
+
 ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'signage.User'
@@ -150,3 +154,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+
+#SMTP 
+if not DEBUG:
+
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.mailtrap.io'  
+    EMAIL_PORT = '2525'  
+    EMAIL_USE_TLS = True  
+    EMAIL_HOST_USER = '73a9d0ac54a048'  
+    EMAIL_HOST_PASSWORD = 'ab1a320f0d607e'
