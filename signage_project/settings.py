@@ -32,6 +32,8 @@ if DEBUG:
 
 ALLOWED_HOSTS = ['https://signageproject.herokuapp.com/', 'signageproject.herokuapp.com', '127.0.0.1', 'https://web-production-5a3e.up.railway.app/', 'web-production-5a3e.up.railway.app']
 
+CSRF_TRUSTED_ORIGINS = ['https://web-production-5a3e.up.railway.app']
+
 AUTH_USER_MODEL = 'signage.User'
 
 # Application definition
