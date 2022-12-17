@@ -86,6 +86,7 @@ class Advertiser(models.Model):
 class Plan(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="plans")
     plan_id = models.CharField(max_length=100, blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.business}"
@@ -95,6 +96,7 @@ class PabblySubscription(models.Model):
     customer_id = models.CharField(max_length=150)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name="subscriptions")
     advertiser = models.ForeignKey(Advertiser, on_delete=models.CASCADE, related_name="subscriptions")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.advertiser.business_name} | {self.plan.business.name}"

@@ -1,0 +1,31 @@
+{% extends "signage/base.html"%}
+
+
+{% block content%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+
+        </div>
+        <div class="col-8">
+            {% for item in data %}
+                <div>
+                    {{item.plan_name}} | {{item.price}}
+                </div>
+
+
+            {% endfor %}
+            
+        </div>
+
+        <div class="col-2">
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

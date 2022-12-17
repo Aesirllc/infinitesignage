@@ -12,7 +12,7 @@ from django.contrib import messages
 from .serializers import BusinessSerializer, LocationSerializer
 from django.core.paginator import Paginator
 from phonenumber_field.phonenumber import PhoneNumber
-from .api import create_host_plan, fetch_plans_list, verify_hosted_page
+from .api import create_host_plan, fetch_plans_list, verify_hosted_page, fetch_all_subscriptions, revenue_report
 
 
 # Create your views here.
@@ -277,4 +277,15 @@ def success(request):
 
         return render(request, 'signage/success.html', {"plan": {"name": result["data"]["plan"]["plan_name"]}})
     return render(request, 'signage/success.html')
+
+
+def display_report(request):
+    plans = fetch_all_subscriptions()
+    revenue_report()
+
+    # print(plans)
+    # for plan in plans:
+    #     print(plan)
+    return render(request, "signage/report.html", {"data": plans})
+    
 

@@ -16,6 +16,7 @@ urlpatterns = [
     path("business_details/<str:business_id>", views.business_details, name="business_details"),
     path("plans/<str:advertiser_id>", views.plans, name="plans" ),
     path("success", views.success, name="success_view"),
+    path("reports", views.display_report, name="report"),
     
 
 

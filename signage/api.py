@@ -85,9 +85,32 @@ def fetch_all_subscriptions():
     list_subscriptions_endpoint = "https://payments.pabbly.com/api/v1/subscriptions"
 
     response = requests.get(list_plans_endpoint, auth=basic)
+    
+
+    plans_list = response.json()["data"]
+    filtered_plans = filter(filter_plans, plans_list)
+
+    return list(filtered_plans)
+
+def filter_plans(plan):
+    if plan["product_id"] == product_id and plan["plan_active"]:
+        return True
+    return False
+    
+def revenue_report():
+    basic = HTTPBasicAuth(api_key, secret_key)
+    endpoint = "https://payments.pabbly.com/api/v1/revenuetransaction/"
+
+    data = {
+        "product_id":product_id,
+        "interval":"last_30_days"
+    }
+
+    response = requests.post(endpoint, auth=basic, data=data)
+
     print(response.json())
 
-    return response.json()
+
 
 
 if __name__ == "__main__":
